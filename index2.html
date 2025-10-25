@@ -44,183 +44,204 @@
         @keyframes slideDown { from { opacity: 0; transform: translate(-50%, -100%); } to { opacity: 1; transform: translate(-50%, 0); } }
         /* Logo Text Style */
         .logo-text { font-family: 'Rajdhani', sans-serif; letter-spacing: 0.05em; }
+        /* Mobile Menu Animation */
+        .mobile-menu { max-height: 0; overflow: hidden; transition: max-height 0.3s ease-out; }
+        .mobile-menu.open { max-height: 500px; }
     </style>
 </head>
 <body class="bg-sky-100 text-slate-800">
     <!-- Header & Navigasi -->
     <header class="bg-white shadow-lg sticky top-0 z-40 border-b border-slate-200">
-        <nav class="container mx-auto px-6 py-4 flex flex-col md:flex-row justify-between items-center gap-4">
-            <div class="flex items-center gap-4 w-full md:w-auto">
+        <nav class="container mx-auto px-4 py-3">
+            <!-- Top Bar with Logo and Menu Button -->
+            <div class="flex justify-between items-center">
                 <a href="#" class="flex items-center flex-shrink-0">
-                    <img src="https://z-cdn-media.chatglm.cn/files/86035b89-631a-416a-ad36-77b07ee64be6_smecre-removebg-preview.png?auth_key=1792752580-21a738fa666b49ea94ec55c02687d24b-0-b1161b98dfa647339d4a9a1d6edc160f" alt="Smecone Creative" class="h-14 md:h-20 w-auto rounded-full">
-                    <span class="ml-3 text-2xl md:text-3xl font-bold uppercase text-slate-800 logo-text">SMECONE CREATIVE</span>
+                    <img src="https://z-cdn-media.chatglm.cn/files/86035b89-631a-416a-ad36-77b07ee64be6_smecre-removebg-preview.png?auth_key=1792752580-21a738fa666b49ea94ec55c02687d24b-0-b1161b98dfa647339d4a9a1d6edc160f" alt="Smecone Creative" class="h-10 w-auto rounded-full">
+                    <span class="ml-2 text-xl md:text-3xl font-bold uppercase text-slate-800 logo-text hidden sm:block">SMECONE CREATIVE</span>
+                    <span class="ml-2 text-lg font-bold uppercase text-slate-800 logo-text sm:hidden">SMECONE</span>
                 </a>
-                <div class="relative flex-grow md:flex-grow-0">
-                    <input type="text" id="search-input" placeholder="Cari produk..." class="w-full bg-slate-100 text-slate-700 pl-10 pr-4 py-2 rounded-full focus:outline-none focus:ring-2 focus:ring-sky-500">
-                    <i class="fas fa-search absolute left-3 top-1/2 transform -translate-y-1/2 text-slate-500"></i>
+                
+                <!-- Desktop Navigation -->
+                <div class="hidden md:flex items-center space-x-6">
+                    <a href="#catalog" class="text-slate-600 hover:text-sky-600 transition font-medium">Katalog</a>
+                    <a href="#how-it-works" class="text-slate-600 hover:text-sky-600 transition font-medium">Cara Pemesanan</a>
+                    <a href="#why-us" class="text-slate-600 hover:text-sky-600 transition font-medium">Kenapa Kami</a>
+                    <a href="#about" class="text-slate-600 hover:text-sky-600 transition font-medium">Tentang</a>
+                    <a href="#contact" class="text-slate-600 hover:text-sky-600 transition font-medium">Kontak</a>
+                    <button id="cart-button" class="relative bg-gradient-to-r from-sky-500 to-sky-600 text-white px-5 py-2 rounded-full hover:shadow-lg transition transform hover:scale-105 glow font-semibold">
+                        <i class="fas fa-shopping-cart mr-2"></i>Keranjang
+                        <span id="cart-badge" class="absolute -top-2 -right-2 bg-pink-500 text-white text-xs font-bold rounded-full h-6 w-6 flex items-center justify-center hidden">0</span>
+                    </button>
+                </div>
+                
+                <!-- Mobile Menu Button -->
+                <div class="flex items-center space-x-3 md:hidden">
+                    <button id="cart-button-mobile" class="relative bg-gradient-to-r from-sky-500 to-sky-600 text-white p-2 rounded-full hover:shadow-lg transition transform hover:scale-105">
+                        <i class="fas fa-shopping-cart"></i>
+                        <span id="cart-badge-mobile" class="absolute -top-2 -right-2 bg-pink-500 text-white text-xs font-bold rounded-full h-5 w-5 flex items-center justify-center hidden">0</span>
+                    </button>
+                    <button class="text-slate-600" id="mobile-menu-button">
+                        <i class="fas fa-bars text-xl"></i>
+                    </button>
                 </div>
             </div>
-            <div class="hidden md:flex space-x-6 items-center">
-                <a href="#catalog" class="text-slate-600 hover:text-sky-600 transition font-medium">Katalog</a>
-                <a href="#how-it-works" class="text-slate-600 hover:text-sky-600 transition font-medium">Cara Pemesanan</a>
-                <a href="#why-us" class="text-slate-600 hover:text-sky-600 transition font-medium">Kenapa Kami</a>
-                <a href="#about" class="text-slate-600 hover:text-sky-600 transition font-medium">Tentang</a>
-                <a href="#contact" class="text-slate-600 hover:text-sky-600 transition font-medium">Kontak</a>
-                <button id="cart-button" class="relative bg-gradient-to-r from-sky-500 to-sky-600 text-white px-5 py-2 rounded-full hover:shadow-lg transition transform hover:scale-105 glow font-semibold">
-                    <i class="fas fa-shopping-cart mr-2"></i>Keranjang
-                    <span id="cart-badge" class="absolute -top-2 -right-2 bg-pink-500 text-white text-xs font-bold rounded-full h-6 w-6 flex items-center justify-center hidden">0</span>
-                </button>
+            
+            <!-- Search Bar - Visible on all devices -->
+            <div class="mt-3 relative">
+                <input type="text" id="search-input" placeholder="Cari produk..." class="w-full bg-slate-100 text-slate-700 pl-10 pr-4 py-2 rounded-full focus:outline-none focus:ring-2 focus:ring-sky-500">
+                <i class="fas fa-search absolute left-3 top-1/2 transform -translate-y-1/2 text-slate-500"></i>
             </div>
-            <button class="md:hidden text-slate-600" id="mobile-menu-button"><i class="fas fa-bars text-2xl"></i></button>
+            
+            <!-- Mobile Menu -->
+            <div class="mobile-menu bg-white mt-2" id="mobile-menu">
+                <div class="py-2 border-t border-slate-200">
+                    <a href="#catalog" class="block px-4 py-2 text-slate-600 hover:bg-slate-100">Katalog</a>
+                    <a href="#how-it-works" class="block px-4 py-2 text-slate-600 hover:bg-slate-100">Cara Pemesanan</a>
+                    <a href="#why-us" class="block px-4 py-2 text-slate-600 hover:bg-slate-100">Kenapa Kami</a>
+                    <a href="#about" class="block px-4 py-2 text-slate-600 hover:bg-slate-100">Tentang</a>
+                    <a href="#contact" class="block px-4 py-2 text-slate-600 hover:bg-slate-100">Kontak</a>
+                </div>
+            </div>
         </nav>
-        <div class="hidden md:hidden bg-white border-t border-slate-200" id="mobile-menu">
-            <a href="#catalog" class="block px-6 py-2 text-slate-600 hover:bg-slate-100">Katalog</a>
-            <a href="#how-it-works" class="block px-6 py-2 text-slate-600 hover:bg-slate-100">Cara Pemesanan</a>
-            <a href="#why-us" class="block px-6 py-2 text-slate-600 hover:bg-slate-100">Kenapa Kami</a>
-            <a href="#about" class="block px-6 py-2 text-slate-600 hover:bg-slate-100">Tentang</a>
-            <a href="#contact" class="block px-6 py-2 text-slate-600 hover:bg-slate-100">Kontak</a>
-        </div>
     </header>
 
-    <main>
-        <!-- Hero Section -->
-        <section class="bg-gradient-to-br from-sky-200 via-white to-sky-100 text-slate-800 py-20 md:py-32 relative overflow-hidden">
-            <div class="container mx-auto px-6 text-center relative z-10">
-                <h1 class="text-4xl md:text-6xl font-black mb-4 fade-in">Cetak Cepat.<span class="text-transparent bg-clip-text bg-gradient-to-r from-sky-600 to-sky-500"> Hasil Tepat.</span></h1>
-                <p class="text-lg md:text-xl mb-8 max-w-2xl mx-auto fade-in text-slate-600">Platform custom produk terdepan. Desain suka-suka, hasil maksimal, dengan teknologi printing terkini.</p>
-                <a href="#catalog" class="bg-gradient-to-r from-sky-500 to-sky-600 text-white font-bold px-8 py-4 rounded-full text-lg hover:bg-gradient-to-l transition transform hover:scale-105 shadow-xl fade-in glow font-semibold">
-                    <i class="fas fa-rocket mr-2"></i>Mulai Berkreasi
-                </a>
-            </div>
-        </section>
+    <!-- Hero Section -->
+    <section class="bg-gradient-to-br from-sky-200 via-white to-sky-100 text-slate-800 py-20 md:py-32 relative overflow-hidden">
+        <div class="container mx-auto px-6 text-center relative z-10">
+            <h1 class="text-4xl md:text-6xl font-black mb-4 fade-in">Cetak Cepat.<span class="text-transparent bg-clip-text bg-gradient-to-r from-sky-600 to-sky-500"> Hasil Tepat.</span></h1>
+            <p class="text-lg md:text-xl mb-8 max-w-2xl mx-auto fade-in text-slate-600">Platform custom produk terdepan. Desain suka-suka, hasil maksimal, dengan teknologi printing terkini.</p>
+            <a href="#catalog" class="bg-gradient-to-r from-sky-500 to-sky-600 text-white font-bold px-8 py-4 rounded-full text-lg hover:bg-gradient-to-l transition transform hover:scale-105 shadow-xl fade-in glow font-semibold">
+                <i class="fas fa-rocket mr-2"></i>Mulai Berkreasi
+            </a>
+        </div>
+    </section>
 
-        <!-- Katalog Produk Section -->
-        <section id="catalog" class="py-16 bg-white">
-            <div class="container mx-auto px-6">
-                <h2 class="text-3xl md:text-4xl font-bold text-center text-slate-800 mb-4">Katalog Produk</h2>
-                <p class="text-center text-slate-500 mb-10">Pilih kanvas untuk karya terbaikmu.</p>
-                <div class="flex flex-wrap justify-center gap-3 mb-10">
-                    <button class="filter-btn active px-6 py-2 rounded-full font-semibold transition bg-sky-500 text-white" data-category="all"><i class="fas fa-border-all mr-2"></i>Semua</button>
-                    <button class="filter-btn px-6 py-2 rounded-full font-semibold transition bg-slate-200 text-slate-700" data-category="kaos"><i class="fas fa-tshirt mr-2"></i>Kaos</button>
-                    <button class="filter-btn px-6 py-2 rounded-full font-semibold transition bg-slate-200 text-slate-700" data-category="mug"><i class="fas fa-mug-hot mr-2"></i>Mug</button>
-                    <button class="filter-btn px-6 py-2 rounded-full font-semibold transition bg-slate-200 text-slate-700" data-category="totebag"><i class="fas fa-shopping-bag mr-2"></i>Totebag</button>
-                    <button class="filter-btn px-6 py-2 rounded-full font-semibold transition bg-slate-200 text-slate-700" data-category="aksesoris"><i class="fas fa-hat-wizard mr-2"></i>Aksesoris</button>
-                </div>
-                <div id="product-grid" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
-                    <!-- Produk 1: Kaos 24s -->
-                    <div class="product-card bg-white border border-slate-200 rounded-xl shadow-lg overflow-hidden transform transition duration-300 hover:scale-105 hover:shadow-2xl hover:shadow-sky-500/50" data-category="kaos" data-product-id="1" data-product-name="Kaos Custom 24s">
-                        <div class="relative"><img src="https://images.unsplash.com/photo-1521572163474-6864f9cf17ab?q=80&w=1780&auto=format&fit=crop" alt="Kaos Custom 24s" class="w-full h-56 object-cover"><span class="absolute top-3 right-3 bg-pink-500 text-white text-xs font-bold px-2 py-1 rounded">Best Seller</span></div>
-                        <div class="p-5"><h3 class="text-lg font-semibold text-slate-800 mb-1">Kaos Custom 24s</h3><p class="text-slate-600 text-sm mb-3">Kaos premium dengan desain custom, cocok untuk acara santai atau spesial.
+    <!-- Katalog Produk Section -->
+    <section id="catalog" class="py-16 bg-white">
+        <div class="container mx-auto px-6">
+            <h2 class="text-3xl md:text-4xl font-bold text-center text-slate-800 mb-4">Katalog Produk</h2>
+            <p class="text-center text-slate-500 mb-10">Pilih kanvas untuk karya terbaikmu.</p>
+            <div class="flex flex-wrap justify-center gap-3 mb-10">
+                <button class="filter-btn active px-6 py-2 rounded-full font-semibold transition bg-sky-500 text-white" data-category="all"><i class="fas fa-border-all mr-2"></i>Semua</button>
+                <button class="filter-btn px-6 py-2 rounded-full font-semibold transition bg-slate-200 text-slate-700" data-category="kaos"><i class="fas fa-tshirt mr-2"></i>Kaos</button>
+                <button class="filter-btn px-6 py-2 rounded-full font-semibold transition bg-slate-200 text-slate-700" data-category="mug"><i class="fas fa-mug-hot mr-2"></i>Mug</button>
+                <button class="filter-btn px-6 py-2 rounded-full font-semibold transition bg-slate-200 text-slate-700" data-category="totebag"><i class="fas fa-shopping-bag mr-2"></i>Totebag</button>
+                <button class="filter-btn px-6 py-2 rounded-full font-semibold transition bg-slate-200 text-slate-700" data-category="aksesoris"><i class="fas fa-hat-wizard mr-2"></i>Aksesoris</button>
+            </div>
+            <div id="product-grid" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
+                <!-- Produk 1: Kaos 24s -->
+                <div class="product-card bg-white border border-slate-200 rounded-xl shadow-lg overflow-hidden transform transition duration-300 hover:scale-105 hover:shadow-2xl hover:shadow-sky-500/50" data-category="kaos" data-product-id="1" data-product-name="Kaos Custom 24s">
+                    <div class="relative"><img src="https://images.unsplash.com/photo-1521572163474-6864f9cf17ab?q=80&w=1780&auto=format&fit=crop" alt="Kaos Custom 24s" class="w-full h-56 object-cover"><span class="absolute top-3 right-3 bg-pink-500 text-white text-xs font-bold px-2 py-1 rounded">Best Seller</span></div>
+                    <div class="p-5"><h3 class="text-lg font-semibold text-slate-800 mb-1">Kaos Custom 24s</h3><p class="text-slate-600 text-sm mb-3">Kaos premium dengan desain custom, cocok untuk acara santai atau spesial.
 </p><div class="flex justify-between items-center"><span class="text-xl font-bold text-sky-600">Rp 85.000</span><div class="flex space-x-2"><button class="quick-view-btn bg-slate-100 text-slate-700 p-2 rounded-lg hover:bg-slate-200 transition" title="Quick View"><i class="fas fa-eye"></i></button><button class="add-to-cart-btn bg-sky-500 text-white px-4 py-2 rounded-lg hover:bg-sky-600 transition font-semibold"><i class="fas fa-cart-plus"></i></button></div></div></div>
-                    </div>
-                    <!-- Produk 2: Kaos 30s -->
-                    <div class="product-card bg-white border border-slate-200 rounded-xl shadow-lg overflow-hidden transform transition duration-300 hover:scale-105 hover:shadow-2xl hover:shadow-sky-500/50" data-category="kaos" data-product-id="2" data-product-name="Kaos Custom 30s">
-                        <img src="https://plus.unsplash.com/premium_photo-1669703777430-f74b7a4ddebd?ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1yZWxhdGVkfDl8fHxlbnwwfHx8fHw%3D&auto=format&fit=crop&q=60&w=500" alt="Kaos Custom 30s" class="w-full h-56 object-cover">
-                        <div class="p-5"><h3 class="text-lg font-semibold text-slate-800 mb-1">Kaos Custom 30s</h3><p class="text-slate-600 text-sm mb-3">Kaos tipis dan lembut dengan desain custom, ideal untuk cuaca panas.
+                </div>
+                <!-- Produk 2: Kaos 30s -->
+                <div class="product-card bg-white border border-slate-200 rounded-xl shadow-lg overflow-hidden transform transition duration-300 hover:scale-105 hover:shadow-2xl hover:shadow-sky-500/50" data-category="kaos" data-product-id="2" data-product-name="Kaos Custom 30s">
+                    <img src="https://plus.unsplash.com/premium_photo-1669703777430-f74b7a4ddebd?ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1yZWxhdGVkfDl8fHxlbnwwfHx8fHw%3D&auto=format&fit=crop&q=60&w=500" alt="Kaos Custom 30s" class="w-full h-56 object-cover">
+                    <div class="p-5"><h3 class="text-lg font-semibold text-slate-800 mb-1">Kaos Custom 30s</h3><p class="text-slate-600 text-sm mb-3">Kaos tipis dan lembut dengan desain custom, ideal untuk cuaca panas.
 .</p><div class="flex justify-between items-center"><span class="text-xl font-bold text-sky-600">Rp 75.000</span><div class="flex space-x-2"><button class="quick-view-btn bg-slate-100 text-slate-700 p-2 rounded-lg hover:bg-slate-200 transition" title="Quick View"><i class="fas fa-eye"></i></button><button class="add-to-cart-btn bg-sky-500 text-white px-4 py-2 rounded-lg hover:bg-sky-600 transition font-semibold"><i class="fas fa-cart-plus"></i></button></div></div></div>
-                    </div>
-                    <!-- Produk 3: Mug Custom-->
-                    <div class="product-card bg-white border border-slate-200 rounded-xl shadow-lg overflow-hidden transform transition duration-300 hover:scale-105 hover:shadow-2xl hover:shadow-sky-500/50" data-category="mug" data-product-id="3" data-product-name="Mug Custom">
-                        <img src="https://media.istockphoto.com/id/1739870817/id/foto/gadis-bahagia-di-cangkir-bunglon.jpg?s=612x612&w=0&k=20&c=ffn9HJ1TG8HWFFFkePL1tdKA3jO9SDg8CNZZZ0NfQfk=" alt="Mug Custom" class="w-full h-56 object-cover">
-                        <div class="p-5"><h3 class="text-lg font-semibold text-slate-800 mb-1">Mug Custom</h3><p class="text-slate-600 text-sm mb-3">Mug dengan desain unik dan personal, cocok untuk hadiah atau koleksi.
+                </div>
+                <!-- Produk 3: Mug Custom-->
+                <div class="product-card bg-white border border-slate-200 rounded-xl shadow-lg overflow-hidden transform transition duration-300 hover:scale-105 hover:shadow-2xl hover:shadow-sky-500/50" data-category="mug" data-product-id="3" data-product-name="Mug Custom">
+                    <img src="https://media.istockphoto.com/id/1739870817/id/foto/gadis-bahagia-di-cangkir-bunglon.jpg?s=612x612&w=0&k=20&c=ffn9HJ1TG8HWFFFkePL1tdKA3jO9SDg8CNZZZ0NfQfk=" alt="Mug Custom" class="w-full h-56 object-cover">
+                    <div class="p-5"><h3 class="text-lg font-semibold text-slate-800 mb-1">Mug Custom</h3><p class="text-slate-600 text-sm mb-3">Mug dengan desain unik dan personal, cocok untuk hadiah atau koleksi.
 
 .</p><div class="flex justify-between items-center"><span class="text-xl font-bold text-sky-600">Rp 25.000</span><div class="flex space-x-2"><button class="quick-view-btn bg-slate-100 text-slate-700 p-2 rounded-lg hover:bg-slate-200 transition" title="Quick View"><i class="fas fa-eye"></i></button><button class="add-to-cart-btn bg-sky-500 text-white px-4 py-2 rounded-lg hover:bg-sky-600 transition font-semibold"><i class="fas fa-cart-plus"></i></button></div></div></div>
-                    </div>
-                    <!-- Produk 4: Totebag -->
-                    <div class="product-card bg-white border border-slate-200 rounded-xl shadow-lg overflow-hidden transform transition duration-300 hover:scale-105 hover:shadow-2xl hover:shadow-sky-500/50" data-category="totebag" data-product-id="4" data-product-name="Totebag Kanvas Polos">
-                        <img src="https://images.unsplash.com/photo-1621466550398-ac8062907657?ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MjB8fHRvdGViYWd8ZW58MHx8MHx8fDA%3D&auto=format&fit=crop&q=60&w=500" alt="Totebag Kanvas Polos" class="w-full h-56 object-cover">
-                        <div class="p-5"><h3 class="text-lg font-semibold text-slate-800 mb-1">Totebag Kanvas Polos</h3><p class="text-slate-600 text-sm mb-3">Tas kanvas kuat & modis. Ramah lingkungan, fungsional.
+                </div>
+                <!-- Produk 4: Totebag -->
+                <div class="product-card bg-white border border-slate-200 rounded-xl shadow-lg overflow-hidden transform transition duration-300 hover:scale-105 hover:shadow-2xl hover:shadow-sky-500/50" data-category="totebag" data-product-id="4" data-product-name="Totebag Kanvas Polos">
+                    <img src="https://images.unsplash.com/photo-1621466550398-ac8062907657?ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MjB8fHRvdGViYWd8ZW58MHx8MHx8fDA%3D&auto=format&fit=crop&q=60&w=500" alt="Totebag Kanvas Polos" class="w-full h-56 object-cover">
+                    <div class="p-5"><h3 class="text-lg font-semibold text-slate-800 mb-1">Totebag Kanvas Polos</h3><p class="text-slate-600 text-sm mb-3">Tas kanvas kuat & modis. Ramah lingkungan, fungsional.
 </p><div class="flex justify-between items-center"><span class="text-xl font-bold text-sky-600">Rp 25.000</span><div class="flex space-x-2"><button class="quick-view-btn bg-slate-100 text-slate-700 p-2 rounded-lg hover:bg-slate-200 transition" title="Quick View"><i class="fas fa-eye"></i></button><button class="add-to-cart-btn bg-sky-500 text-white px-4 py-2 rounded-lg hover:bg-sky-600 transition font-semibold"><i class="fas fa-cart-plus"></i></button></div></div></div>
-                    </div>
-                    <!-- Produk 5: Name Tag -->
-                    <div class="product-card bg-white border border-slate-200 rounded-xl shadow-lg overflow-hidden transform transition duration-300 hover:scale-105 hover:shadow-2xl hover:shadow-sky-500/50" data-category="aksesoris" data-product-id="5" data-product-name="Name Tag">
-                        <img src="https://down-id.img.susercontent.com/file/id-11134207-7r98s-luk6fyua7ws19a" alt="Name Tag" class="w-full h-56 object-cover">
-                        <div class="p-5"><h3 class="text-lg font-semibold text-slate-800 mb-1">Name Tag</h3><p class="text-slate-600 text-sm mb-3">Name tag custom untuk acara formal atau event.
+                </div>
+                <!-- Produk 5: Name Tag -->
+                <div class="product-card bg-white border border-slate-200 rounded-xl shadow-lg overflow-hidden transform transition duration-300 hover:scale-105 hover:shadow-2xl hover:shadow-sky-500/50" data-category="aksesoris" data-product-id="5" data-product-name="Name Tag">
+                    <img src="https://down-id.img.susercontent.com/file/id-11134207-7r98s-luk6fyua7ws19a" alt="Name Tag" class="w-full h-56 object-cover">
+                    <div class="p-5"><h3 class="text-lg font-semibold text-slate-800 mb-1">Name Tag</h3><p class="text-slate-600 text-sm mb-3">Name tag custom untuk acara formal atau event.
 </p><div class="flex justify-between items-center"><span class="text-xl font-bold text-sky-600">Rp 25.000</span><div class="flex space-x-2"><button class="quick-view-btn bg-slate-100 text-slate-700 p-2 rounded-lg hover:bg-slate-200 transition" title="Quick View"><i class="fas fa-eye"></i></button><button class="add-to-cart-btn bg-sky-500 text-white px-4 py-2 rounded-lg hover:bg-sky-600 transition font-semibold"><i class="fas fa-cart-plus"></i></button></div></div></div>
-                    </div>
-                    <!-- Produk 6: Gantungan Kunci -->
-                    <div class="product-card bg-white border border-slate-200 rounded-xl shadow-lg overflow-hidden transform transition duration-300 hover:scale-105 hover:shadow-2xl hover:shadow-sky-500/50" data-category="aksesoris" data-product-id="6" data-product-name="Gantungan Kunci">
-                        <img src="https://down-id.img.susercontent.com/file/id-11134207-7r98x-lm64ehmxsxij99" alt="Gantungan Kunci" class="w-full h-56 object-cover">
-                        <div class="p-5"><h3 class="text-lg font-semibold text-slate-800 mb-1">Gantungan Kunci</h3><p class="text-slate-600 text-sm mb-3">Gantungan kunci dengan desain personal, cocok untuk menambah sentuhan unik.
+                </div>
+                <!-- Produk 6: Gantungan Kunci -->
+                <div class="product-card bg-white border border-slate-200 rounded-xl shadow-lg overflow-hidden transform transition duration-300 hover:scale-105 hover:shadow-2xl hover:shadow-sky-500/50" data-category="aksesoris" data-product-id="6" data-product-name="Gantungan Kunci">
+                    <img src="https://down-id.img.susercontent.com/file/id-11134207-7r98x-lm64ehmxsxij99" alt="Gantungan Kunci" class="w-full h-56 object-cover">
+                    <div class="p-5"><h3 class="text-lg font-semibold text-slate-800 mb-1">Gantungan Kunci</h3><p class="text-slate-600 text-sm mb-3">Gantungan kunci dengan desain personal, cocok untuk menambah sentuhan unik.
 </p><div class="flex justify-between items-center"><span class="text-xl font-bold text-sky-600">Rp 5.000</span><div class="flex space-x-2"><button class="quick-view-btn bg-slate-100 text-slate-700 p-2 rounded-lg hover:bg-slate-200 transition" title="Quick View"><i class="fas fa-eye"></i></button><button class="add-to-cart-btn bg-sky-500 text-white px-4 py-2 rounded-lg hover:bg-sky-600 transition font-semibold"><i class="fas fa-cart-plus"></i></button></div></div></div>
-                    </div>
-                    <!-- Produk 7: Tumbler -->
-                    <div class="product-card bg-white border border-slate-200 rounded-xl shadow-lg overflow-hidden transform transition duration-300 hover:scale-105 hover:shadow-2xl hover:shadow-sky-500/50" data-category="mug" data-product-id="7" data-product-name="Tumbler">
-                        <img src="https://ecs7.tokopedia.net/img/cache/700/product-1/2020/3/24/728029718/728029718_7c849b54-276b-4622-a32d-46ffa1472d9d_983_983.jpg" alt="Tumbler" class="w-full h-56 object-cover">
-                        <div class="p-5"><h3 class="text-lg font-semibold text-slate-800 mb-1">Tumbler</h3><p class="text-slate-600 text-sm mb-3">Tumbler ramah lingkungan dengan desain custom, menjaga minuman tetap <panas>
+                </div>
+                <!-- Produk 7: Tumbler -->
+                <div class="product-card bg-white border border-slate-200 rounded-xl shadow-lg overflow-hidden transform transition duration-300 hover:scale-105 hover:shadow-2xl hover:shadow-sky-500/50" data-category="mug" data-product-id="7" data-product-name="Tumbler">
+                    <img src="https://ecs7.tokopedia.net/img/cache/700/product-1/2020/3/24/728029718/728029718_7c849b54-276b-4622-a32d-46ffa1472d9d_983_983.jpg" alt="Tumbler" class="w-full h-56 object-cover">
+                    <div class="p-5"><h3 class="text-lg font-semibold text-slate-800 mb-1">Tumbler</h3><p class="text-slate-600 text-sm mb-3">Tumbler ramah lingkungan dengan desain custom, menjaga minuman tetap <panas>
                         <dingin!></dingin!>
 </p><div class="flex justify-between items-center"><span class="text-xl font-bold text-sky-600">Rp 30.000</span><div class="flex space-x-2"><button class="quick-view-btn bg-slate-100 text-slate-700 p-2 rounded-lg hover:bg-slate-200 transition" title="Quick View"><i class="fas fa-eye"></i></button><button class="add-to-cart-btn bg-sky-500 text-white px-4 py-2 rounded-lg hover:bg-sky-600 transition font-semibold"><i class="fas fa-cart-plus"></i></button></div></div></div>
-                    </div>
-                    <!-- Produk 8: Totebag Custom -->
-                    <div class="product-card bg-white border border-slate-200 rounded-xl shadow-lg overflow-hidden transform transition duration-300 hover:scale-105 hover:shadow-2xl hover:shadow-sky-500/50" data-category="totebag" data-product-id="8" data-product-name="Tote Bag Custom">
-                        <img src="https://images.unsplash.com/photo-1745389501313-450f73911264?ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&q=80&w=387" alt="Totebag Custom" class="w-full h-56 object-cover">
-                        <div class="p-5"><h3 class="text-lg font-semibold text-slate-800 mb-1">Totebag Custom</h3><p class="text-slate-600 text-sm mb-3">Bahan katun alami, kasual & ramah lingkungan. Untuk seminar/workshop.
+                </div>
+                <!-- Produk 8: Totebag Custom -->
+                <div class="product-card bg-white border border-slate-200 rounded-xl shadow-lg overflow-hidden transform transition duration-300 hover:scale-105 hover:shadow-2xl hover:shadow-sky-500/50" data-category="totebag" data-product-id="8" data-product-name="Tote Bag Custom">
+                    <img src="https://images.unsplash.com/photo-1745389501313-450f73911264?ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&q=80&w=387" alt="Totebag Custom" class="w-full h-56 object-cover">
+                    <div class="p-5"><h3 class="text-lg font-semibold text-slate-800 mb-1">Totebag Custom</h3><p class="text-slate-600 text-sm mb-3">Bahan katun alami, kasual & ramah lingkungan. Untuk seminar/workshop.
 </p><div class="flex justify-between items-center"><span class="text-xl font-bold text-sky-600">Rp 25.000</span><div class="flex space-x-2"><button class="quick-view-btn bg-slate-100 text-slate-700 p-2 rounded-lg hover:bg-slate-200 transition" title="Quick View"><i class="fas fa-eye"></i></button><button class="add-to-cart-btn bg-sky-500 text-white px-4 py-2 rounded-lg hover:bg-sky-600 transition font-semibold"><i class="fas fa-cart-plus"></i></button></div></div></div>
-                    </div>
                 </div>
             </div>
-        </section>
+        </div>
+    </section>
 
-        <!-- Testimoni Section -->
-        <section class="py-16 bg-sky-200">
-            <div class="container mx-auto px-6">
-                <h2 class="text-3xl md:text-4xl font-bold text-center text-slate-800 mb-12">Apa Kata Mereka?</h2>
-                <div class="carousel-container relative max-w-3xl mx-auto">
-                    <div class="carousel-track" id="testimonial-track">
-                        <div class="text-center min-w-full"><img src="ping.jpg" alt="Customer 1" class="w-20 h-20 rounded-full mx-auto mb-4 border-4 border-sky-500"><p class="text-slate-600 italic mb-4">"Kualitas sablonnya bagus banget, tidak mudah luntur. Pengerjaannya juga cepat. Recommended!"</p><h4 class="font-semibold text-slate-800">Pingkan Aulia</h4><p class="text-slate-500 text-sm">Owner, Ping's Boutique</p></div>
-                        <div class="text-center min-w-full"><img src="s.jpg" alt="Customer 2" class="w-20 h-20 rounded-full mx-auto mb-4 border-4 border-sky-500"><p class="text-slate-600 italic mb-4">"Saya pesan totebag untuk acara workshop, hasilnya rapi dan sesuai desain. Peserta suka!"</p><h4 class="font-semibold text-slate-800">Sahwa Bhila Ramadhani</h4><p class="text-slate-500 text-sm">Event Organizer</p></div>
-                        <div class="text-center min-w-full"><img src="f.jpg" alt="Customer 3" class="w-20 h-20 rounded-full mx-auto mb-4 border-4 border-sky-500"><p class="text-slate-600 italic mb-4">"Mug customnya jadi hadiah terbaik untuk ulang tahun teman saya. Harganya worth it!"</p><h4 class="font-semibold text-slate-800">Felisa Dewi Apriliani</h4><p class="text-slate-500 text-sm">Content Creator</p></div>
-                        <!-- Testimoni 4 (Baru) -->
-                        <div class="text-center min-w-full"><img src="fel.jpg" alt="Customer 4" class="w-20 h-20 rounded-full mx-auto mb-4 border-4 border-sky-500"><p class="text-slate-600 italic mb-4">"Name tag yang saya pesan untuk seminar perusahaan sangat berkualitas. Desainnya tajam dan warnanya tidak pudar. Timnya sangat responsif!"</p><h4 class="font-semibold text-slate-800">Felia Dwi Agustina</h4><p class="text-slate-500 text-sm">HR Manager, PT Teknologi Maju</p></div>
-                        <!-- Testimoni 5 (Baru) -->
-                        <div class="text-center min-w-full"><img src="d.jpg" alt="Customer 5" class="w-20 h-20 rounded-full mx-auto mb-4 border-4 border-sky-500"><p class="text-slate-600 italic mb-4">"Tumbler custom untuk kantor kami sangat bagus! Bahan berkualitas dan printingnya rapi. Semua kolega suka dengan desainnya."</p><h4 class="font-semibold text-slate-800">Huges Dini Saputri</h4><p class="text-slate-500 text-sm">Marketing Director</p></div>
-                        <!-- Testimoni 6 (Baru) -->
-                        <div class="text-center min-w-full"><img src="r.jpg" alt="Customer 6" class="w-20 h-20 rounded-full mx-auto mb-4 border-4 border-sky-500"><p class="text-slate-600 italic mb-4">"Kaos custom untuk tim esport kami sangat memuaskan! Kualitas sablonnya detail dan tidak pecah meski sudah dicuci berkali-kali."</p><h4 class="font-semibold text-slate-800">Ummu Raisa Laththuf</h4><p class="text-slate-500 text-sm">Team Manager, Elite Gaming</p></div>
-                    </div>
+    <!-- Testimoni Section -->
+    <section class="py-16 bg-sky-200">
+        <div class="container mx-auto px-6">
+            <h2 class="text-3xl md:text-4xl font-bold text-center text-slate-800 mb-12">Apa Kata Mereka?</h2>
+            <div class="carousel-container relative max-w-3xl mx-auto">
+                <div class="carousel-track" id="testimonial-track">
+                    <div class="text-center min-w-full"><img src="ping.jpg" alt="Customer 1" class="w-20 h-20 rounded-full mx-auto mb-4 border-4 border-sky-500"><p class="text-slate-600 italic mb-4">"Kualitas sablonnya bagus banget, tidak mudah luntur. Pengerjaannya juga cepat. Recommended!"</p><h4 class="font-semibold text-slate-800">Pingkan Aulia</h4><p class="text-slate-500 text-sm">Owner, Ping's Boutique</p></div>
+                    <div class="text-center min-w-full"><img src="s.jpg" alt="Customer 2" class="w-20 h-20 rounded-full mx-auto mb-4 border-4 border-sky-500"><p class="text-slate-600 italic mb-4">"Saya pesan totebag untuk acara workshop, hasilnya rapi dan sesuai desain. Peserta suka!"</p><h4 class="font-semibold text-slate-800">Sahwa Bhila Ramadhani</h4><p class="text-slate-500 text-sm">Event Organizer</p></div>
+                    <div class="text-center min-w-full"><img src="f.jpg" alt="Customer 3" class="w-20 h-20 rounded-full mx-auto mb-4 border-4 border-sky-500"><p class="text-slate-600 italic mb-4">"Mug customnya jadi hadiah terbaik untuk ulang tahun teman saya. Harganya worth it!"</p><h4 class="font-semibold text-slate-800">Felisa Dewi Apriliani</h4><p class="text-slate-500 text-sm">Content Creator</p></div>
+                    <!-- Testimoni 4 (Baru) -->
+                    <div class="text-center min-w-full"><img src="fel.jpg" alt="Customer 4" class="w-20 h-20 rounded-full mx-auto mb-4 border-4 border-sky-500"><p class="text-slate-600 italic mb-4">"Name tag yang saya pesan untuk seminar perusahaan sangat berkualitas. Desainnya tajam dan warnanya tidak pudar. Timnya sangat responsif!"</p><h4 class="font-semibold text-slate-800">Felia Dwi Agustina</h4><p class="text-slate-500 text-sm">HR Manager, PT Teknologi Maju</p></div>
+                    <!-- Testimoni 5 (Baru) -->
+                    <div class="text-center min-w-full"><img src="d.jpg" alt="Customer 5" class="w-20 h-20 rounded-full mx-auto mb-4 border-4 border-sky-500"><p class="text-slate-600 italic mb-4">"Tumbler custom untuk kantor kami sangat bagus! Bahan berkualitas dan printingnya rapi. Semua kolega suka dengan desainnya."</p><h4 class="font-semibold text-slate-800">Huges Dini Saputri</h4><p class="text-slate-500 text-sm">Marketing Director</p></div>
+                    <!-- Testimoni 6 (Baru) -->
+                    <div class="text-center min-w-full"><img src="r.jpg" alt="Customer 6" class="w-20 h-20 rounded-full mx-auto mb-4 border-4 border-sky-500"><p class="text-slate-600 italic mb-4">"Kaos custom untuk tim esport kami sangat memuaskan! Kualitas sablonnya detail dan tidak pecah meski sudah dicuci berkali-kali."</p><h4 class="font-semibold text-slate-800">Ummu Raisa Laththuf</h4><p class="text-slate-500 text-sm">Team Manager, Elite Gaming</p></div>
                 </div>
             </div>
-        </section>
+        </div>
+    </section>
 
-        <!-- Kenapa Pilih Kami Section -->
-        <section id="why-us" class="bg-gradient-to-r from-white to-sky-100 py-16">
-            <div class="container mx-auto px-6">
-                <h2 class="text-3xl md:text-4xl font-bold text-center text-slate-800 mb-12">Kenapa Harus Smecone Creative?</h2>
-                <div class="grid grid-cols-1 md:grid-cols-3 gap-8 text-center">
-                    <div class="bg-white p-8 rounded-xl shadow-md border border-slate-200"><div class="bg-sky-500 text-white rounded-full w-20 h-20 flex items-center justify-center mx-auto mb-4 text-3xl"><i class="fas fa-medal"></i></div><h3 class="font-semibold text-xl mb-2 text-slate-800">Kualitas Terjamin</h3><p class="text-slate-600">Kami hanya menggunakan bahan terbaik dan proses produksi yang terkontrol untuk hasil yang memuaskan.</p></div>
-                    <div class="bg-white p-8 rounded-xl shadow-md border border-slate-200"><div class="bg-sky-500 text-white rounded-full w-20 h-20 flex items-center justify-center mx-auto mb-4 text-3xl"><i class="fas fa-paint-brush"></i></div><h3 class="font-semibold text-xl mb-2 text-slate-800">Desain Bebas</h3><p class="text-slate-600">Tidak ada batasan kreativitas. Kirim desain apa saja, dan kami akan wujudkan di produk pilihanmu.</p></div>
-                    <div class="bg-white p-8 rounded-xl shadow-md border border-slate-200"><div class="bg-sky-500 text-white rounded-full w-20 h-20 flex items-center justify-center mx-auto mb-4 text-3xl"><i class="fas fa-truck"></i></div><h3 class="font-semibold text-xl mb-2 text-slate-800">Pengerjaan Cepat</h3><p class="text-slate-600">Proses produksi yang efisien memastikan pesananmu selesai tepat waktu dan siap dikirim.</p></div>
-                </div>
+    <!-- Kenapa Pilih Kami Section -->
+    <section id="why-us" class="bg-gradient-to-r from-white to-sky-100 py-16">
+        <div class="container mx-auto px-6">
+            <h2 class="text-3xl md:text-4xl font-bold text-center text-slate-800 mb-12">Kenapa Harus Smecone Creative?</h2>
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-8 text-center">
+                <div class="bg-white p-8 rounded-xl shadow-md border border-slate-200"><div class="bg-sky-500 text-white rounded-full w-20 h-20 flex items-center justify-center mx-auto mb-4 text-3xl"><i class="fas fa-medal"></i></div><h3 class="font-semibold text-xl mb-2 text-slate-800">Kualitas Terjamin</h3><p class="text-slate-600">Kami hanya menggunakan bahan terbaik dan proses produksi yang terkontrol untuk hasil yang memuaskan.</p></div>
+                <div class="bg-white p-8 rounded-xl shadow-md border border-slate-200"><div class="bg-sky-500 text-white rounded-full w-20 h-20 flex items-center justify-center mx-auto mb-4 text-3xl"><i class="fas fa-paint-brush"></i></div><h3 class="font-semibold text-xl mb-2 text-slate-800">Desain Bebas</h3><p class="text-slate-600">Tidak ada batasan kreativitas. Kirim desain apa saja, dan kami akan wujudkan di produk pilihanmu.</p></div>
+                <div class="bg-white p-8 rounded-xl shadow-md border border-slate-200"><div class="bg-sky-500 text-white rounded-full w-20 h-20 flex items-center justify-center mx-auto mb-4 text-3xl"><i class="fas fa-truck"></i></div><h3 class="font-semibold text-xl mb-2 text-slate-800">Pengerjaan Cepat</h3><p class="text-slate-600">Proses produksi yang efisien memastikan pesananmu selesai tepat waktu dan siap dikirim.</p></div>
             </div>
-        </section>
+        </div>
+    </section>
 
-        <!-- Cara Pemesanan Section -->
-        <section id="how-it-works" class="py-16 bg-white">
-            <div class="container mx-auto px-6">
-                <h2 class="text-3xl md:text-4xl font-bold text-center text-slate-800 mb-4">Cara Pemesanan Mudah</h2>
-                <p class="text-center text-slate-500 mb-12">Hanya 4 langkah mudah untuk mendapatkan produk custom impianmu.</p>
-                <div class="grid grid-cols-1 md:grid-cols-4 gap-8 text-center">
-                    <div><div class="bg-gradient-to-r from-sky-500 to-sky-600 text-white rounded-full w-20 h-20 flex items-center justify-center mx-auto mb-4 text-2xl font-bold">1</div><h3 class="font-semibold text-lg mb-2 text-slate-800">Hubungi Kami</h3><p class="text-slate-600">Konsultasikan kebutuhan produk dan desainmu via WhatsApp.</p></div>
-                    <div><div class="bg-gradient-to-r from-sky-500 to-sky-600 text-white rounded-full w-20 h-20 flex items-center justify-center mx-auto mb-4 text-2xl font-bold">2</div><h3 class="font-semibold text-lg mb-2 text-slate-800">Kirim Desain & Deal</h3><p class="text-slate-600">Kirim desain final dan kami akan berikan total harga yang harus dibayar.</p></div>
-                    <div><div class="bg-gradient-to-r from-sky-500 to-sky-600 text-white rounded-full w-20 h-20 flex items-center justify-center mx-auto mb-4 text-2xl font-bold">3</div><h3 class="font-semibold text-lg mb-2 text-slate-800">Bayar DP</h3><p class="text-slate-600">Lakukan pembayaran uang muka (DP) 50% untuk memulai proses produksi.</p></div>
-                    <div><div class="bg-gradient-to-r from-sky-500 to-sky-600 text-white rounded-full w-20 h-20 flex items-center justify-center mx-auto mb-4 text-2xl font-bold">4</div><h3 class="font-semibold text-lg mb-2 text-slate-800">Produk Dikirim</h3><p class="text-slate-600">Pelunasan dan produk selesai akan segera kami kirim ke alamatmu.</p></div>
-                </div>
+    <!-- Cara Pemesanan Section -->
+    <section id="how-it-works" class="py-16 bg-white">
+        <div class="container mx-auto px-6">
+            <h2 class="text-3xl md:text-4xl font-bold text-center text-slate-800 mb-4">Cara Pemesanan Mudah</h2>
+            <p class="text-center text-slate-500 mb-12">Hanya 4 langkah mudah untuk mendapatkan produk custom impianmu.</p>
+            <div class="grid grid-cols-1 md:grid-cols-4 gap-8 text-center">
+                <div><div class="bg-gradient-to-r from-sky-500 to-sky-600 text-white rounded-full w-20 h-20 flex items-center justify-center mx-auto mb-4 text-2xl font-bold">1</div><h3 class="font-semibold text-lg mb-2 text-slate-800">Hubungi Kami</h3><p class="text-slate-600">Konsultasikan kebutuhan produk dan desainmu via WhatsApp.</p></div>
+                <div><div class="bg-gradient-to-r from-sky-500 to-sky-600 text-white rounded-full w-20 h-20 flex items-center justify-center mx-auto mb-4 text-2xl font-bold">2</div><h3 class="font-semibold text-lg mb-2 text-slate-800">Kirim Desain & Deal</h3><p class="text-slate-600">Kirim desain final dan kami akan berikan total harga yang harus dibayar.</p></div>
+                <div><div class="bg-gradient-to-r from-sky-500 to-sky-600 text-white rounded-full w-20 h-20 flex items-center justify-center mx-auto mb-4 text-2xl font-bold">3</div><h3 class="font-semibold text-lg mb-2 text-slate-800">Bayar DP</h3><p class="text-slate-600">Lakukan pembayaran uang muka (DP) 50% untuk memulai proses produksi.</p></div>
+                <div><div class="bg-gradient-to-r from-sky-500 to-sky-600 text-white rounded-full w-20 h-20 flex items-center justify-center mx-auto mb-4 text-2xl font-bold">4</div><h3 class="font-semibold text-lg mb-2 text-slate-800">Produk Dikirim</h3><p class="text-slate-600">Pelunasan dan produk selesai akan segera kami kirim ke alamatmu.</p></div>
             </div>
-        </section>
+        </div>
+    </section>
 
-        <!-- Tentang Kami Section -->
-        <section id="about" class="bg-gradient-to-r from-sky-100 to-white py-16">
-            <div class="container mx-auto px-6">
-                <div class="flex flex-col md:flex-row items-center">
-                    <div class="md:w-1/2 mb-8 md:mb-0 md:pr-10">
-                        <h2 class="text-3xl font-bold text-slate-800 mb-4">Tentang <span class="text-transparent bg-clip-text bg-gradient-to-r from-sky-600 to-sky-500">Smecone Creative</span></h2>
-                        <p class="text-slate-600 mb-4">Kami bukan sekadar jasa cetak. Kami adalah mitra kreatif Anda. Berdiri sejak 2010, Smecone Creative berkomitmen untuk mengubah ide-ide brilian Anda menjadi produk nyata yang bermakna.</p>
-                        <p class="text-slate-600 mb-4">Setiap kaos, mug, atau totebag yang keluar dari workshop kami adalah hasil dari proses yang penuh dedikasi, mulai dari pemilihan bahan terbaik hingga quality control yang ketat. Kami percaya bahwa produk custom adalah cerminan dari identitas, dan kami bangga menjadi bagian dari cerita Anda.</p>
-                    </div>
-                    <div class="md:w-1/2"><img src="https://i.imgur.com/ZAv2joB.jpeg" alt="Workshop Kami" class="rounded-lg shadow-xl"></div>
+    <!-- Tentang Kami Section -->
+    <section id="about" class="bg-gradient-to-r from-sky-100 to-white py-16">
+        <div class="container mx-auto px-6">
+            <div class="flex flex-col md:flex-row items-center">
+                <div class="md:w-1/2 mb-8 md:mb-0 md:pr-10">
+                    <h2 class="text-3xl font-bold text-slate-800 mb-4">Tentang <span class="text-transparent bg-clip-text bg-gradient-to-r from-sky-600 to-sky-500">Smecone Creative</span></h2>
+                    <p class="text-slate-600 mb-4">Kami bukan sekadar jasa cetak. Kami adalah mitra kreatif Anda. Berdiri sejak 2010, Smecone Creative berkomitmen untuk mengubah ide-ide brilian Anda menjadi produk nyata yang bermakna.</p>
+                    <p class="text-slate-600 mb-4">Setiap kaos, mug, atau totebag yang keluar dari workshop kami adalah hasil dari proses yang penuh dedikasi, mulai dari pemilihan bahan terbaik hingga quality control yang ketat. Kami percaya bahwa produk custom adalah cerminan dari identitas, dan kami bangga menjadi bagian dari cerita Anda.</p>
                 </div>
+                <div class="md:w-1/2"><img src="https://i.imgur.com/ZAv2joB.jpeg" alt="Workshop Kami" class="rounded-lg shadow-xl"></div>
             </div>
-        </section>
-    </main>
+        </div>
+    </section>
 
     <!-- Footer -->
     <footer id="contact" class="bg-slate-800 text-gray-300 py-12 border-t border-slate-700">
@@ -231,7 +252,7 @@
                     <span class="ml-3 text-xl font-bold uppercase text-white logo-text">SMECONE CREATIVE</span>
                 </a><p class="text-gray-400 mt-2">Wujudkan ide kreatifmu dengan produk custom berkualitas tinggi.</p></div>
                 <div><h4 class="font-semibold text-lg mb-4 text-white">Layanan Cepat</h4><ul class="space-y-2 text-gray-400"><li><a href="#catalog" class="hover:text-sky-400 transition">Katalog Produk</a></li><li><a href="#how-it-works" class="hover:text-sky-400 transition">Cara Pemesanan</a></li><li><a href="#" class="hover:text-sky-400 transition">Portofolio</a></li></ul></div>
-                <div><h4 class="font-semibold text-lg mb-4 text-white">Kontak Kami</h4><ul class="space-y-2 text-gray-400"><li><i class="fas fa-map-marker-alt mr-2"></i>Jl. DR. Soeparno No.29, Purwokerto Wetan, Kec. Purwokerto Tim., Kabupaten Banyumas, Jawa Tengah 53123</li><li><i class="fas fa-phone mr-2"></i><a href="tel:+6285942278454" class="hover:text-sky-400 transition">+62 859-4227-8454</a></li><li><i class="fas fa-envelope mr-2"></i><a href="mailto:hello@smeconecreative.com" class="hover:text-sky-400 transition">hello@smeconecreative.com</a></li></ul></div>
+                <div><h4 class="font-semibold text-lg mb-4 text-white">Kontak Kami</h4><ul class="space-y-2 text-gray-400"><li><i class="fas fa-map-marker-alt mr-2"></i>Jl. DR. Soeparno No.29, Purwokerto Wetan, Kec. Purwokerto Tim., Kabupaten Banyumas, Jawa Tengah 53123</li><li><i class="fas fa-phone mr-2"></i><a href="tel:+6285942278454" class="hover:text-sky-400 transition">+62 859-4227-8454</a></li><li><i class="fas fa-envelope mr-2"></i><a href="mailto:hello@smeconecreative.com" class="hover:text-sky-400 transition">hello@smeconecreative.com</a></li></ul></div>
                 <div><h4 class="font-semibold text-lg mb-4 text-white">Ikuti Kami</h4><div class="flex space-x-4"><a href="https://www.instagram.com/smeconecreative_" class="bg-slate-700 p-3 rounded-full hover:bg-sky-500 transition"><i class="fab fa-instagram"></i></a><a href="#" class="bg-slate-700 p-3 rounded-full hover:bg-sky-500 transition"><i class="fas fa-envelope"></i></a><a href="#" class="bg-slate-700 p-3 rounded-full hover:bg-sky-500 transition"><i class="fab fa-tiktok"></i></a><a href="https://wa.me/6285942278454" class="bg-slate-700 p-3 rounded-full hover:bg-green-600 transition" target="_blank"><i class="fab fa-whatsapp"></i></a></div></div>
             </div>
             <div class="border-t border-slate-700 mt-8 pt-8 text-center text-gray-400 text-sm">&copy; 2024 Smecone Creative. All Rights Reserved. Made with <i class="fas fa-heart text-pink-500"></i> in Purwokerto.</div>
@@ -273,30 +294,134 @@
     <!-- JAVASCRIPT LENGKAP -->
     <script>
     document.addEventListener('DOMContentLoaded', () => {
-        const mobileMenuButton = document.getElementById('mobile-menu-button'); const mobileMenu = document.getElementById('mobile-menu');
-        if (mobileMenuButton) { mobileMenuButton.addEventListener('click', () => { mobileMenu.classList.toggle('hidden'); }); }
-        const searchInput = document.getElementById('search-input'); const productCards = document.querySelectorAll('.product-card');
-        if (searchInput) { searchInput.addEventListener('input', (e) => { const searchTerm = e.target.value.toLowerCase(); productCards.forEach(card => { const productName = card.getAttribute('data-product-name').toLowerCase(); card.style.display = productName.includes(searchTerm) ? 'block' : 'none'; }); }); }
+        const mobileMenuButton = document.getElementById('mobile-menu-button'); 
+        const mobileMenu = document.getElementById('mobile-menu');
+        if (mobileMenuButton) { 
+            mobileMenuButton.addEventListener('click', () => { 
+                mobileMenu.classList.toggle('open'); 
+            }); 
+        }
+        
+        // Close mobile menu when clicking on a link
+        const mobileMenuLinks = document.querySelectorAll('#mobile-menu a');
+        mobileMenuLinks.forEach(link => {
+            link.addEventListener('click', () => {
+                mobileMenu.classList.remove('open');
+            });
+        });
+        
+        const searchInput = document.getElementById('search-input'); 
+        const productCards = document.querySelectorAll('.product-card');
+        if (searchInput) { 
+            searchInput.addEventListener('input', (e) => { 
+                const searchTerm = e.target.value.toLowerCase(); 
+                productCards.forEach(card => { 
+                    const productName = card.getAttribute('data-product-name').toLowerCase(); 
+                    card.style.display = productName.includes(searchTerm) ? 'block' : 'none'; 
+                }); 
+            }); 
+        }
         const filterButtons = document.querySelectorAll('.filter-btn');
-        const setActiveButton = (activeBtn) => { filterButtons.forEach(btn => { btn.classList.remove('bg-sky-500', 'text-white'); btn.classList.add('bg-slate-200', 'text-slate-700'); }); activeBtn.classList.remove('bg-slate-200', 'text-slate-700'); activeBtn.classList.add('bg-sky-500', 'text-white'); };
-        filterButtons.forEach(button => { button.addEventListener('click', () => { const category = button.getAttribute('data-category'); setActiveButton(button); productCards.forEach(card => { if (category === 'all' || card.getAttribute('data-category') === category) { card.style.display = 'block'; setTimeout(() => card.classList.add('fade-in'), 10); } else { card.style.display = 'none'; } }); }); });
-        const track = document.getElementById('testimonial-track'); const testimonials = Array.from(track.children); let currentIndex = 0;
-        const nextTestimonial = () => { currentIndex = (currentIndex + 1) % testimonials.length; track.style.transform = `translateX(-${currentIndex * 100}%)`; };
+        const setActiveButton = (activeBtn) => { 
+            filterButtons.forEach(btn => { 
+                btn.classList.remove('bg-sky-500', 'text-white'); 
+                btn.classList.add('bg-slate-200', 'text-slate-700'); 
+            }); 
+            activeBtn.classList.remove('bg-slate-200', 'text-slate-700'); 
+            activeBtn.classList.add('bg-sky-500', 'text-white'); 
+        };
+        filterButtons.forEach(button => { 
+            button.addEventListener('click', () => { 
+                const category = button.getAttribute('data-category'); 
+                setActiveButton(button); 
+                productCards.forEach(card => { 
+                    if (category === 'all' || card.getAttribute('data-category') === category) { 
+                        card.style.display = 'block'; 
+                        setTimeout(() => card.classList.add('fade-in'), 10); 
+                    } else { 
+                        card.style.display = 'none'; 
+                    } 
+                }); 
+            }); 
+        });
+        const track = document.getElementById('testimonial-track'); 
+        const testimonials = Array.from(track.children); 
+        let currentIndex = 0;
+        const nextTestimonial = () => { 
+            currentIndex = (currentIndex + 1) % testimonials.length; 
+            track.style.transform = `translateX(-${currentIndex * 100}%)`; 
+        };
         setInterval(nextTestimonial, 4000);
         const backToTopButton = document.getElementById('back-to-top');
-        window.addEventListener('scroll', () => { backToTopButton.classList.toggle('hidden', window.scrollY <= 300); });
-        backToTopButton.addEventListener('click', () => { window.scrollTo({ top: 0, behavior: 'smooth' }); });
-        const notification = document.getElementById('notification'); let notificationTimeout;
-        const showNotification = () => { clearTimeout(notificationTimeout); notification.classList.remove('show'); void notification.offsetWidth; notification.classList.add('show'); notificationTimeout = setTimeout(() => { notification.classList.remove('show'); }, 3000); };
-        const quickViewModal = document.getElementById('quick-view-modal'); const quickViewImage = document.getElementById('quick-view-image'); const quickViewTitle = document.getElementById('quick-view-title'); const quickViewPrice = document.getElementById('quick-view-price'); const quickViewDescription = document.getElementById('quick-view-description'); const quickViewAddToCartBtn = document.getElementById('quick-view-add-to-cart'); const closeQuickViewBtn = document.getElementById('close-quick-view'); let currentQuickViewProductId = null;
-        const openQuickView = (productId) => { const product = products[productId]; quickViewImage.src = product.image; quickViewTitle.textContent = product.name; quickViewPrice.textContent = `Rp ${product.price.toLocaleString('id-ID')}`; quickViewDescription.textContent = product.description || 'Produk berkualitas tinggi dengan desain yang bisa disesuaikan sepenuhnya dengan kebutuhan Anda.'; currentQuickViewProductId = productId; quickViewModal.classList.remove('hidden'); quickViewModal.classList.add('flex'); };
-        const closeQuickView = () => { quickViewModal.classList.add('hidden'); quickViewModal.classList.remove('flex'); currentQuickViewProductId = null; };
-        document.querySelectorAll('.quick-view-btn').forEach(button => { button.addEventListener('click', (e) => { e.stopPropagation(); const productCard = button.closest('.product-card'); const productId = productCard.getAttribute('data-product-id'); openQuickView(productId); }); });
+        window.addEventListener('scroll', () => { 
+            backToTopButton.classList.toggle('hidden', window.scrollY <= 300); 
+        });
+        backToTopButton.addEventListener('click', () => { 
+            window.scrollTo({ top: 0, behavior: 'smooth' }); 
+        });
+        const notification = document.getElementById('notification'); 
+        let notificationTimeout;
+        const showNotification = () => { 
+            clearTimeout(notificationTimeout); 
+            notification.classList.remove('show'); 
+            void notification.offsetWidth; 
+            notification.classList.add('show'); 
+            notificationTimeout = setTimeout(() => { 
+                notification.classList.remove('show'); 
+            }, 3000); 
+        };
+        const quickViewModal = document.getElementById('quick-view-modal'); 
+        const quickViewImage = document.getElementById('quick-view-image'); 
+        const quickViewTitle = document.getElementById('quick-view-title'); 
+        const quickViewPrice = document.getElementById('quick-view-price'); 
+        const quickViewDescription = document.getElementById('quick-view-description'); 
+        const quickViewAddToCartBtn = document.getElementById('quick-view-add-to-cart'); 
+        const closeQuickViewBtn = document.getElementById('close-quick-view'); 
+        let currentQuickViewProductId = null;
+        const openQuickView = (productId) => { 
+            const product = products[productId]; 
+            quickViewImage.src = product.image; 
+            quickViewTitle.textContent = product.name; 
+            quickViewPrice.textContent = `Rp ${product.price.toLocaleString('id-ID')}`; 
+            quickViewDescription.textContent = product.description || 'Produk berkualitas tinggi dengan desain yang bisa disesuaikan sepenuhnya dengan kebutuhan Anda.'; 
+            currentQuickViewProductId = productId; 
+            quickViewModal.classList.remove('hidden'); 
+            quickViewModal.classList.add('flex'); 
+        };
+        const closeQuickView = () => { 
+            quickViewModal.classList.add('hidden'); 
+            quickViewModal.classList.remove('flex'); 
+            currentQuickViewProductId = null; 
+        };
+        document.querySelectorAll('.quick-view-btn').forEach(button => { 
+            button.addEventListener('click', (e) => { 
+                e.stopPropagation(); 
+                const productCard = button.closest('.product-card'); 
+                const productId = productCard.getAttribute('data-product-id'); 
+                openQuickView(productId); 
+            }); 
+        });
         closeQuickViewBtn.addEventListener('click', closeQuickView);
-        quickViewModal.addEventListener('click', (e) => { if (e.target === quickViewModal) closeQuickView(); });
-        quickViewAddToCartBtn.addEventListener('click', () => { if (currentQuickViewProductId) { addToCart(currentQuickViewProductId); closeQuickView(); } });
+        quickViewModal.addEventListener('click', (e) => { 
+            if (e.target === quickViewModal) closeQuickView(); 
+        });
+        quickViewAddToCartBtn.addEventListener('click', () => { 
+            if (currentQuickViewProductId) { 
+                addToCart(currentQuickViewProductId); 
+                closeQuickView(); 
+            } 
+        });
         let cart = JSON.parse(localStorage.getItem('smeconeCart')) || [];
-        const cartButton = document.getElementById('cart-button'); const cartSidebar = document.getElementById('cart-sidebar'); const closeCartBtn = document.getElementById('close-cart'); const cartItemsContainer = document.getElementById('cart-items'); const cartTotalElement = document.getElementById('cart-total'); const cartBadge = document.getElementById('cart-badge'); const checkoutBtn = document.getElementById('checkout-btn'); const addToCartButtons = document.querySelectorAll('.add-to-cart-btn');
+        const cartButton = document.getElementById('cart-button'); 
+        const cartButtonMobile = document.getElementById('cart-button-mobile');
+        const cartSidebar = document.getElementById('cart-sidebar'); 
+        const closeCartBtn = document.getElementById('close-cart'); 
+        const cartItemsContainer = document.getElementById('cart-items'); 
+        const cartTotalElement = document.getElementById('cart-total'); 
+        const cartBadge = document.getElementById('cart-badge'); 
+        const cartBadgeMobile = document.getElementById('cart-badge-mobile');
+        const checkoutBtn = document.getElementById('checkout-btn'); 
+        const addToCartButtons = document.querySelectorAll('.add-to-cart-btn');
         const products = {
             1: { name: 'Kaos Custom 24s', price: 85000, image: 'https://images.unsplash.com/photo-1521572163474-6864f9cf17ab?q=80&w=1780&auto=format&fit=crop', description: 'Kaos premium dengan desain custom, cocok untuk acara santai atau spesial.' },
             2: { name: 'Kaos Custom 30s', price: 75000, image: 'https://plus.unsplash.com/premium_photo-1669703777430-f74b7a4ddebd?ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1yZWxhdGVkfDl8fHxlbnwwfHx8fHw%3D&auto=format&fit=crop&q=60&w=500', description: 'Kaos tipis dan lembut dengan desain custom, ideal untuk cuaca panas.' },
@@ -308,24 +433,105 @@
             8: { name: 'Totebag Custom', price: 25000, image: 'https://images.unsplash.com/photo-1745389501313-450f73911264?ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&q=80&w=387', description: 'Bahan katun alami, kasual & ramah lingkungan. Untuk seminar/workshop.' },
         };
         const updateCartUI = () => {
-            cartItemsContainer.innerHTML = ''; let total = 0; let itemCount = 0;
-            if (cart.length === 0) { cartItemsContainer.innerHTML = '<p class="text-center text-gray-500 mt-10">Keranjang kamu kosong.</p>'; checkoutBtn.disabled = true; }
+            cartItemsContainer.innerHTML = ''; 
+            let total = 0; 
+            let itemCount = 0;
+            if (cart.length === 0) { 
+                cartItemsContainer.innerHTML = '<p class="text-center text-gray-500 mt-10">Keranjang kamu kosong.</p>'; 
+                checkoutBtn.disabled = true; 
+            }
             else {
                 checkoutBtn.disabled = false;
-                cart.forEach(item => { total += item.price * item.quantity; itemCount += item.quantity; const cartItemElement = document.createElement('div'); cartItemElement.className = 'flex items-center space-x-4 mb-4 p-3 bg-slate-700 rounded-lg'; cartItemElement.innerHTML = `<img src="${item.image}" alt="${item.name}" class="w-16 h-16 object-cover rounded"><div class="flex-1"><h4 class="font-semibold text-sm text-white">${item.name}</h4><p class="text-gray-400 text-sm">Rp ${item.price.toLocaleString('id-ID')}</p></div><div class="flex items-center space-x-2"><button class="decrease-qty bg-slate-600 text-gray-300 w-7 h-7 rounded-full" data-id="${item.id}">-</button><span class="font-semibold text-white">${item.quantity}</span><button class="increase-qty bg-slate-600 text-gray-300 w-7 h-7 rounded-full" data-id="${item.id}">+</button></div><button class="remove-item text-red-400 hover:text-red-300" data-id="${item.id}"><i class="fas fa-trash"></i></button>`; cartItemsContainer.appendChild(cartItemElement); });
+                cart.forEach(item => { 
+                    total += item.price * item.quantity; 
+                    itemCount += item.quantity; 
+                    const cartItemElement = document.createElement('div'); 
+                    cartItemElement.className = 'flex items-center space-x-4 mb-4 p-3 bg-slate-700 rounded-lg'; 
+                    cartItemElement.innerHTML = `<img src="${item.image}" alt="${item.name}" class="w-16 h-16 object-cover rounded"><div class="flex-1"><h4 class="font-semibold text-sm text-white">${item.name}</h4><p class="text-gray-400 text-sm">Rp ${item.price.toLocaleString('id-ID')}</p></div><div class="flex items-center space-x-2"><button class="decrease-qty bg-slate-600 text-gray-300 w-7 h-7 rounded-full" data-id="${item.id}">-</button><span class="font-semibold text-white">${item.quantity}</span><button class="increase-qty bg-slate-600 text-gray-300 w-7 h-7 rounded-full" data-id="${item.id}">+</button></div><button class="remove-item text-red-400 hover:text-red-300" data-id="${item.id}"><i class="fas fa-trash"></i></button>`; 
+                    cartItemsContainer.appendChild(cartItemElement); 
+                });
             }
             cartTotalElement.textContent = `Rp ${total.toLocaleString('id-ID')}`;
-            if (itemCount > 0) { cartBadge.textContent = itemCount; cartBadge.classList.remove('hidden'); } else { cartBadge.classList.add('hidden'); }
+            if (itemCount > 0) { 
+                cartBadge.textContent = itemCount; 
+                cartBadge.classList.remove('hidden'); 
+                cartBadgeMobile.textContent = itemCount; 
+                cartBadgeMobile.classList.remove('hidden'); 
+            } else { 
+                cartBadge.classList.add('hidden'); 
+                cartBadgeMobile.classList.add('hidden'); 
+            }
         };
-        const saveCart = () => { localStorage.setItem('smeconeCart', JSON.stringify(cart)); };
-        const addToCart = (productId) => { const product = products[productId]; if (!product) return; const existingItem = cart.find(item => item.id === productId); if (existingItem) { existingItem.quantity++; } else { cart.push({ ...product, id: productId, quantity: 1 }); } saveCart(); updateCartUI(); showNotification(); };
-        const changeQuantity = (productId, change) => { const item = cart.find(item => item.id === productId); if (item) { item.quantity += change; if (item.quantity <= 0) { removeFromCart(productId); } else { saveCart(); updateCartUI(); } } };
-        const removeFromCart = (productId) => { cart = cart.filter(item => item.id !== productId); saveCart(); updateCartUI(); };
+        const saveCart = () => { 
+            localStorage.setItem('smeconeCart', JSON.stringify(cart)); 
+        };
+        const addToCart = (productId) => { 
+            const product = products[productId]; 
+            if (!product) return; 
+            const existingItem = cart.find(item => item.id === productId); 
+            if (existingItem) { 
+                existingItem.quantity++; 
+            } else { 
+                cart.push({ ...product, id: productId, quantity: 1 }); 
+            } 
+            saveCart(); 
+            updateCartUI(); 
+            showNotification(); 
+        };
+        const changeQuantity = (productId, change) => { 
+            const item = cart.find(item => item.id === productId); 
+            if (item) { 
+                item.quantity += change; 
+                if (item.quantity <= 0) { 
+                    removeFromCart(productId); 
+                } else { 
+                    saveCart(); 
+                    updateCartUI(); 
+                } 
+            } 
+        };
+        const removeFromCart = (productId) => { 
+            cart = cart.filter(item => item.id !== productId); 
+            saveCart(); 
+            updateCartUI(); 
+        };
         if(cartButton) cartButton.addEventListener('click', () => cartSidebar.classList.add('open'));
+        if(cartButtonMobile) cartButtonMobile.addEventListener('click', () => cartSidebar.classList.add('open'));
         if(closeCartBtn) closeCartBtn.addEventListener('click', () => cartSidebar.classList.remove('open'));
-        addToCartButtons.forEach(button => { button.addEventListener('click', (e) => { const productCard = e.target.closest('.product-card'); if (productCard) { const productId = productCard.getAttribute('data-product-id'); addToCart(productId); } }); });
-        if(cartItemsContainer) { cartItemsContainer.addEventListener('click', (e) => { const target = e.target; if (target.classList.contains('increase-qty') || target.classList.contains('decrease-qty')) { const productId = target.getAttribute('data-id'); const change = target.classList.contains('increase-qty') ? 1 : -1; changeQuantity(productId, change); } if (target.closest('.remove-item')) { const productId = target.closest('.remove-item').getAttribute('data-id'); removeFromCart(productId); } }); }
-        if(checkoutBtn) { checkoutBtn.addEventListener('click', () => { let message = "Halo Smecone Creative, saya ingin memesan produk berikut:\n\n"; cart.forEach(item => { message += `- ${item.name} (Jumlah: ${item.quantity})\n`; }); message += `\nTotal: ${cartTotalElement.textContent}`; const whatsappUrl = `https://wa.me/6285942278454?text=${encodeURIComponent(message)}`; window.open(whatsappUrl, '_blank'); }); }
+        addToCartButtons.forEach(button => { 
+            button.addEventListener('click', (e) => { 
+                const productCard = e.target.closest('.product-card'); 
+                if (productCard) { 
+                    const productId = productCard.getAttribute('data-product-id'); 
+                    addToCart(productId); 
+                } 
+            }); 
+        });
+        if(cartItemsContainer) { 
+            cartItemsContainer.addEventListener('click', (e) => { 
+                const target = e.target; 
+                if (target.classList.contains('increase-qty') || target.classList.contains('decrease-qty')) { 
+                    const productId = target.getAttribute('data-id'); 
+                    const change = target.classList.contains('increase-qty') ? 1 : -1; 
+                    changeQuantity(productId, change); 
+                } 
+                if (target.closest('.remove-item')) { 
+                    const productId = target.closest('.remove-item').getAttribute('data-id'); 
+                    removeFromCart(productId); 
+                } 
+            }); 
+        }
+        if(checkoutBtn) { 
+            checkoutBtn.addEventListener('click', () => { 
+                let message = "Halo Smecone Creative, saya ingin memesan produk berikut:\n\n"; 
+                cart.forEach(item => { 
+                    message += `- ${item.name} (Jumlah: ${item.quantity})\n`; 
+                }); 
+                message += `\nTotal: ${cartTotalElement.textContent}`; 
+                const whatsappUrl = `https://wa.me/6285942278454?text=${encodeURIComponent(message)}`; 
+                window.open(whatsappUrl, '_blank'); 
+            }); 
+        }
         updateCartUI();
     });
     </script>
